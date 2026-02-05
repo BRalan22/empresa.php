@@ -13,7 +13,7 @@ class ClienteComum extends Cliente {
 }
 
 class ClientePremium extends Cliente {
-    public function aplicarDesconto($valor) { return $valor * 0.90; } // 10% de desconto
+    public function aplicarDesconto($valor) { return $valor * 0.90; } // 20% de desconto
 }
 
 // produto
@@ -79,4 +79,5 @@ $maria = new ClientePremium("Maria");
 $ped2 = new Pedido($maria);
 $ped2->adicionar($p1, 1);
 $ped2->adicionar($p2, 1);
+
 $ped2->finalizar();
