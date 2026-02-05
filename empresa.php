@@ -1,39 +1,54 @@
 <?php
 
-// clinte
+//clinte
 abstract class Cliente {
-    public $nome;
-    public function __construct($nome) { $this->nome = $nome; }
+    public string $nome;
+    public string $email;
+    public string $cpf;
+
+    public function __construct($nome, $email, $cpf) {
+        $this->nome = $nome;
+        $this->email = $email;
+        $this->cpf = $cpf;
+    }
+
     abstract public function aplicarDesconto($valor);
 }
 
 
 class ClienteComum extends Cliente {
-    public function aplicarDesconto($valor) { return $valor; } // Sem desconto
+    public function aplicarDesconto($valor) { 
+        return $valor; // Preço normal
+    }
 }
 
 class ClientePremium extends Cliente {
-    public function aplicarDesconto($valor) { return $valor * 0.90; } // 20% de desconto
+    public function aplicarDesconto($valor) { 
+        return $valor * 0.90; // 10% de desconto
+    }
 }
 
 // produto
 class Produto {
-    public $nome;
-    public $preco;
-    public $estoque;
+    private string $nome;
+    private float $preco;
+    public int $estoque;
 
     public function __construct($nome, $preco, $estoque) {
         $this->nome = $nome;
         $this->preco = $preco;
         $this->estoque = $estoque;
     }
+
+    public function getNome() { return $this->nome; }
+    public function getPreco() { return $this->preco; }
 }
 
 // pedido
 class Pedido {
-    private $cliente;
-    private $itens = [];
-    public $status = "Aberto";
+    private Cliente $cliente;
+    private array $itens = [];
+    public string $status = "Aberto";
 
     public function __construct(Cliente $cliente) {
         $this->cliente = $cliente;
@@ -43,41 +58,40 @@ class Pedido {
         if ($p->estoque >= $qtd) {
             $this->itens[] = ['prod' => $p, 'qtd' => $qtd];
             $p->estoque -= $qtd;
-        } else {
-            echo "Erro: Sem estoque para {$p->nome}\n";
         }
     }
 
     public function finalizar() {
         $total = 0;
-        foreach ($this->itens as $i) {
-            $total += $i['prod']->preco * $i['qtd'];
+        foreach ($this->itens as $item) {
+            $total += $item['prod']->getPreco() * $item['qtd'];
         }
 
         $valorFinal = $this->cliente->aplicarDesconto($total);
         $this->status = "Pago";
 
-        echo "Pedido de: {$this->cliente->nome}\n";
-        echo "Total com Desconto: R$ " . number_format($valorFinal, 2, ',', '.') . "\n";
-        echo "Status: {$this->status}\n---\n";
+        echo "--- RESUMO DO PEDIDO ---\n";
+        echo "Cliente: {$this->cliente->nome} | CPF: {$this->cliente->cpf}\n";
+        echo "Email: {$this->cliente->email}\n";
+        echo "Total: R$ " . number_format($valorFinal, 2) . "\n";
+        echo "Status: {$this->status}\n";
+        echo "------------------------\n\n";
     }
 }
 
 
 
-$p1 = new Produto("Celular", 1000, 10);
-$p2 = new Produto("Fone", 200, 5);
 
+$celular = new Produto("iPhone", 5000, 5);
 
-$jose = new ClienteComum("José");
-$ped1 = new Pedido($jose);
-$ped1->adicionar($p1, 1);
-$ped1->finalizar();
+// Cliente Premium  nome, email e cpf
+$premium = new ClientePremium("Ana Costa", "ana@email.com", "123.456.789-00");
+$pedido1 = new Pedido($premium);
+$pedido1->adicionar($celular, 1);
+$pedido1->finalizar();
 
-
-$maria = new ClientePremium("Maria");
-$ped2 = new Pedido($maria);
-$ped2->adicionar($p1, 1);
-$ped2->adicionar($p2, 1);
-
-$ped2->finalizar();
+// Cliente Comum  nome, email e cpf
+$comum = new ClienteComum("Joao Silva", "joao@email.com", "987.654.321-11");
+$pedido2 = new Pedido($comum);
+$pedido2->adicionar($celular, 1);
+$pedido2->finalizar();
