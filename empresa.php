@@ -1,6 +1,6 @@
 <?php
 
-//clinte
+
 abstract class Cliente {
     public string $nome;
     public string $email;
@@ -18,17 +18,17 @@ abstract class Cliente {
 
 class ClienteComum extends Cliente {
     public function aplicarDesconto($valor) { 
-        return $valor; // Preço normal
+        return $valor; 
     }
 }
 
 class ClientePremium extends Cliente {
     public function aplicarDesconto($valor) { 
-        return $valor * 0.90; // 10% de desconto
+        return $valor * 0.90; 
     }
 }
 
-// produto
+
 class Produto {
     private string $nome;
     private float $preco;
@@ -44,7 +44,7 @@ class Produto {
     public function getPreco() { return $this->preco; }
 }
 
-// pedido
+
 class Pedido {
     private Cliente $cliente;
     private array $itens = [];
@@ -84,18 +84,19 @@ class Pedido {
 
 $celular = new Produto("iPhone", 5000, 5);
 
-// Cliente Premium  nome e email e cpf
+
 $premium = new ClientePremium("Ana Silva", "Ana.Silva@email.com", "123.456.789-00");
 $pedido1 = new Pedido($premium);
 $pedido1->adicionar($celular, 1);
 $pedido1->finalizar();
 
-// Cliente Comum  nome e email e cpf
+
 $comum = new ClienteComum("Lucas Santos", "Lucas.Santos@email.com", "987.654.321-11");
 $pedido2 = new Pedido($comum);
 $pedido2->adicionar($celular, 1);
 
 $pedido2->finalizar();
+
 
 
 
