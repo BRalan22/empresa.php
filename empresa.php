@@ -70,7 +70,7 @@ class Pedido {
         $valorFinal = $this->cliente->aplicarDesconto($total);
         $this->status = "Pago";
 
-        echo "--- RESUMO DAS COMPRAS ---\n";
+        echo "--- TOTAL DAS COMPRAS DOS CLIENTES ---\n";
         echo "Cliente: {$this->cliente->nome} | CPF: {$this->cliente->cpf}\n";
         echo "Email: {$this->cliente->email}\n";
         echo "Total: R$ " . number_format($valorFinal, 2) . "\n";
@@ -96,4 +96,5 @@ $pedido2 = new Pedido($comum);
 $pedido2->adicionar($celular, 1);
 
 $pedido2->finalizar();
+
 
