@@ -85,16 +85,17 @@ class Pedido {
 $celular = new Produto("iPhone", 5000, 5);
 
 // Cliente Premium  nome e email e cpf
-$premium = new ClientePremium("Ana Costa", "ana@email.com", "123.456.789-00");
+$premium = new ClientePremium("Ana Silva", "Ana.Silva@email.com", "123.456.789-00");
 $pedido1 = new Pedido($premium);
 $pedido1->adicionar($celular, 1);
 $pedido1->finalizar();
 
 // Cliente Comum  nome e email e cpf
-$comum = new ClienteComum("Joao Silva", "joao@email.com", "987.654.321-11");
+$comum = new ClienteComum("Lucas Santos", "Lucas.Santos@email.com", "987.654.321-11");
 $pedido2 = new Pedido($comum);
 $pedido2->adicionar($celular, 1);
 
 $pedido2->finalizar();
+
 
 
